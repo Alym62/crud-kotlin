@@ -5,9 +5,9 @@ Um projeto simples feito em Kotlin/Spring para fins acadêmicos.
 
 ### Stack utilizada:
 
-<strong><i>Kotlin</i></strong>
+- <strong><i>Kotlin</i></strong>
 
-<strong><i>Spring</i></strong>
+- <strong><i>Spring</i></strong>
 
 <hr/>
 
