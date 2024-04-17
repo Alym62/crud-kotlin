@@ -83,4 +83,17 @@ class TaskServiceTest {
         assertEquals(expected.description, taskResponse.description)
         assertEquals(expected.done, taskResponse.done)
     }
+
+    @Test
+    @DisplayName("Test unit service - Delete")
+    fun testDelete() {
+        val taskId = 1L
+
+        doNothing().`when`(taskRepository).deleteById(taskId)
+
+        val taskService = TaskService(taskRepository)
+        taskService.delete(taskId)
+
+        verify(taskRepository, times(1)).deleteById(taskId)
+    }
 }
