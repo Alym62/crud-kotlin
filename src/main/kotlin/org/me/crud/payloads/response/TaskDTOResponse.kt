@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class TaskDTOResponse (
     @JsonProperty("id")
-    var id: Long,
+    var id: Long?,
     @JsonProperty("name")
     var name: String,
     @JsonProperty("description")

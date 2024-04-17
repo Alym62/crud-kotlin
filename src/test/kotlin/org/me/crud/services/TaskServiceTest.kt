@@ -96,4 +96,25 @@ class TaskServiceTest {
 
         verify(taskRepository, times(1)).deleteById(taskId)
     }
+
+    @Test
+    @DisplayName("Test unit service - Update")
+    fun testUpdate() {
+        val taskId = 1L
+        val taskRequest = TaskDTORequest(name = "Task update", description = "Description update", done = true)
+        val taskEntity = TaskEntity(id = taskId, name = "Task entity", description = "Description entity", done = false)
+        val taskUpdated = TaskEntity(id = taskId, name = taskRequest.name, description = taskRequest.description, done = taskRequest.done)
+
+        `when`(taskRepository.findById(taskId)).thenReturn(Optional.of(taskEntity))
+        `when`(taskRepository.save(taskEntity)).thenReturn(taskUpdated)
+
+        val taskService = TaskService(taskRepository)
+        val updatedResponse = taskService.update(taskId, taskRequest)
+        val taskExpectedResponse = TaskDTOResponse(id = taskId, name = taskRequest.name, description = taskRequest.description, done = taskRequest.done)
+
+        assertEquals(updatedResponse, taskExpectedResponse)
+        assertEquals(taskEntity.name, taskRequest.name)
+        assertEquals(taskEntity.description, taskRequest.description)
+        assertEquals(taskEntity.done, taskRequest.done)
+    }
 }
