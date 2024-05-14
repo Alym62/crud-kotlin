@@ -4,8 +4,10 @@ import org.me.crud.domain.TaskEntity
 import org.me.crud.payloads.request.TaskDTORequest
 import org.me.crud.payloads.response.TaskDTOResponse
 import org.me.crud.repositories.TaskRepository
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -39,7 +41,7 @@ class TaskService (val repository: TaskRepository){
 
             val updateTask = repository.save(existingTask)
             TaskDTOResponse(id = updateTask.id!!, name = updateTask.name, description = updateTask.description, done = updateTask.done)
-        }.orElse(null)
+        }.getOrNull() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found: $id")
     }
 
     fun delete(id: Long) {

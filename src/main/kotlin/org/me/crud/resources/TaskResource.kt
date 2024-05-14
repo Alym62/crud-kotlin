@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 @RestController
-@RequestMapping("api/v1/ws/tasks")
+@RequestMapping("/api/v1/ws/tasks")
 class TaskResource (val service: TaskService){
     @GetMapping
     fun findAllTasks(): ResponseEntity<List<TaskDTOResponse>> {
@@ -37,7 +37,7 @@ class TaskResource (val service: TaskService){
         val taskCreated = service.insert(task)
         val uri: URI = ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("{id}")
+            .path("/{id}")
             .buildAndExpand(taskCreated.id)
             .toUri()
 
@@ -46,7 +46,7 @@ class TaskResource (val service: TaskService){
 
     @PutMapping("/{id}")
     fun updateTask(@PathVariable id: Long, @RequestBody task: TaskDTORequest): ResponseEntity<TaskDTOResponse> {
-        val taskUpdate = service.update(id, task) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found: $id")
+        val taskUpdate = service.update(id, task)
         return ResponseEntity.ok().body(taskUpdate)
     }
 
